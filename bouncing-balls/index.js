@@ -6,8 +6,6 @@ const canvasHeight = canvas.height = window.innerHeight;
 const ball = {
   x: 50,
   y: 50,
-  velocityX: 25,
-  velocityY: 25,
   color: 'rgb(59,89,152)',
   size: 15,
   draw() {
