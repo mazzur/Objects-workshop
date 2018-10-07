@@ -3,13 +3,20 @@ const canvasContext = canvas.getContext('2d');
 const canvasWidth = canvas.width = window.innerWidth;
 const canvasHeight = canvas.height = window.innerHeight;
 
+function generateRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+const maxVelocity = 7;
+const ballSize = generateRandomNumber(10, 20);
+
 const ball = {
-  x: 50,
-  y: 50,
-  velocityX: 7,
-  velocityY: 7,
-  color: 'rgb(59,89,152)',
-  size: 15,
+  x: generateRandomNumber(0 + ballSize, canvasWidth - ballSize),
+  y: generateRandomNumber(0 + ballSize, canvasHeight - ballSize),
+  velocityX: generateRandomNumber(-maxVelocity, maxVelocity),
+  velocityY: generateRandomNumber(-maxVelocity, maxVelocity),
+  color: 'rgb(' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ')',
+  size: ballSize,
   draw() {
     canvasContext.beginPath();
     canvasContext.fillStyle = this.color;
