@@ -6,8 +6,8 @@ const canvasHeight = canvas.height = window.innerHeight;
 const ball = {
   x: 50,
   y: 50,
-  velocityX: 25,
-  velocityY: 25,
+  velocityX: 7,
+  velocityY: 7,
   color: 'rgb(59,89,152)',
   size: 15,
   draw() {
@@ -35,10 +35,14 @@ const ball = {
   },
 };
 
-canvasContext.fillStyle = 'rgba(0,0,0,0.2)';
-canvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
+function moveBall() {
+  canvasContext.fillStyle = 'rgba(0,0,0,0.2)';
+  canvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
 
-ball.draw();
-ball.update();
-ball.draw();
-ball.update();
+  ball.draw();
+  ball.update();
+
+  requestAnimationFrame(moveBall);
+}
+
+moveBall();
