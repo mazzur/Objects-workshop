@@ -8,20 +8,21 @@ function generateRandomNumber(min, max) {
 }
 
 const ballsPool = [];
-const ballsCount = 15;
 const maxVelocity = 7;
+const ballsCount = 15;
 
-const genericBall = {
-  initialize() {
-    const ballSize = generateRandomNumber(10, 20);
+function GenericBall() {
+  const ballSize = generateRandomNumber(10, 20);
 
-    this.x = generateRandomNumber(0 + ballSize, canvasWidth - ballSize);
-    this.y = generateRandomNumber(0 + ballSize, canvasHeight - ballSize);
-    this.velocityX = generateRandomNumber(-maxVelocity, maxVelocity);
-    this.velocityY = generateRandomNumber(-maxVelocity, maxVelocity);
-    this.color = 'rgb(' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ')';
-    this.size = ballSize;
-  },
+  this.x = generateRandomNumber(0 + ballSize, canvasWidth - ballSize);
+  this.y = generateRandomNumber(0 + ballSize, canvasHeight - ballSize);
+  this.velocityX = generateRandomNumber(-maxVelocity, maxVelocity);
+  this.velocityY = generateRandomNumber(-maxVelocity, maxVelocity);
+  this.color = 'rgb(' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ')';
+  this.size = ballSize;
+}
+
+Object.assign(GenericBall.prototype, {
   draw() {
     canvasContext.beginPath();
     canvasContext.fillStyle = this.color;
@@ -48,26 +49,30 @@ const genericBall = {
   update() {
     this.move();
   },
-};
+});
 
-const resizableBall = Object.assign(Object.create(genericBall), {
+function ResizableBall() {
+  GenericBall.call(this);
+}
+
+ResizableBall.prototype = Object.create(GenericBall.prototype);
+Object.assign(ResizableBall.prototype, {
   resize() {
     this.size = generateRandomNumber(0, 25);
   },
   update() {
     this.move();
     this.resize();
-  }
+  },
+  constructor: ResizableBall,
 });
 
 while (ballsPool.length < ballsCount) {
-  const ball = Object.create(genericBall);
-  ball.initialize();
+  const ball = new GenericBall();
   ballsPool.push(ball);
 }
 
-const crazyBall = Object.create(resizableBall);
-crazyBall.initialize();
+const crazyBall = new ResizableBall();
 ballsPool.push(crazyBall);
 
 function moveBalls() {
