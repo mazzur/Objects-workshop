@@ -10,57 +10,25 @@ function generateRandomNumber(min, max) {
 const ballsPool = [];
 const ballsCount = 15;
 const maxVelocity = 7;
-const ballSize = generateRandomNumber(10, 20);
 
-while (ballsPool.length < ballsCount) {
-  const ball = {
-    x: generateRandomNumber(0 + ballSize, canvasWidth - ballSize),
-    y: generateRandomNumber(0 + ballSize, canvasHeight - ballSize),
-    velocityX: generateRandomNumber(-maxVelocity, maxVelocity),
-    velocityY: generateRandomNumber(-maxVelocity, maxVelocity),
-    color: 'rgb(' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ')',
-    size: ballSize,
-    draw() {
-      canvasContext.beginPath();
-      canvasContext.fillStyle = this.color;
-      canvasContext.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
-      canvasContext.fill();
-    },
-    update() {
-      const intersectVerticalBorder = (this.x + this.size) >= canvasWidth
-        || (this.x - this.size) <= 0;
-      const intersectHorizontalBorder = (this.y + this.size) >= canvasHeight
-        || (this.y - this.size) <= 0;
+const genericBall = {
+  initialize() {
+    const ballSize = generateRandomNumber(10, 20);
 
-      if (intersectVerticalBorder) {
-        this.velocityX = -(this.velocityX);
-      }
-
-      if (intersectHorizontalBorder) {
-        this.velocityY = -(this.velocityY);
-      }
-
-      this.x = this.x + this.velocityX;
-      this.y = this.y + this.velocityY;
-    },
-  };
-  ballsPool.push(ball);
-}
-
-const resizableBall = {
-  x: generateRandomNumber(0 + ballSize, canvasWidth - ballSize),
-  y: generateRandomNumber(0 + ballSize, canvasHeight - ballSize),
-  velocityX: generateRandomNumber(-maxVelocity, maxVelocity),
-  velocityY: generateRandomNumber(-maxVelocity, maxVelocity),
-  color: 'rgb(' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ')',
-  size: ballSize,
+    this.x = generateRandomNumber(0 + ballSize, canvasWidth - ballSize);
+    this.y = generateRandomNumber(0 + ballSize, canvasHeight - ballSize);
+    this.velocityX = generateRandomNumber(-maxVelocity, maxVelocity);
+    this.velocityY = generateRandomNumber(-maxVelocity, maxVelocity);
+    this.color = 'rgb(' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ')';
+    this.size = ballSize;
+  },
   draw() {
     canvasContext.beginPath();
     canvasContext.fillStyle = this.color;
     canvasContext.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
     canvasContext.fill();
   },
-  update() {
+  move() {
     const intersectVerticalBorder = (this.x + this.size) >= canvasWidth
       || (this.x - this.size) <= 0;
     const intersectHorizontalBorder = (this.y + this.size) >= canvasHeight
@@ -76,12 +44,31 @@ const resizableBall = {
 
     this.x = this.x + this.velocityX;
     this.y = this.y + this.velocityY;
-
-    this.size = generateRandomNumber(0, 25);
+  },
+  update() {
+    this.move();
   },
 };
 
-ballsPool.push(resizableBall);
+const resizableBall = Object.assign(Object.create(genericBall), {
+  resize() {
+    this.size = generateRandomNumber(0, 25);
+  },
+  update() {
+    this.move();
+    this.resize();
+  }
+});
+
+while (ballsPool.length < ballsCount) {
+  const ball = Object.create(genericBall);
+  ball.initialize();
+  ballsPool.push(ball);
+}
+
+const crazyBall = Object.create(resizableBall);
+crazyBall.initialize();
+ballsPool.push(crazyBall);
 
 function moveBalls() {
   canvasContext.fillStyle = 'rgba(0,0,0,0.2)';
