@@ -11,24 +11,23 @@ const ballsPool = [];
 const maxVelocity = 7;
 const ballsCount = 15;
 
-function GenericBall() {
-  const ballSize = generateRandomNumber(10, 20);
+class GenericBall {
+  constructor() {
+    const ballSize = generateRandomNumber(10, 20);
 
-  this.x = generateRandomNumber(0 + ballSize, canvasWidth - ballSize);
-  this.y = generateRandomNumber(0 + ballSize, canvasHeight - ballSize);
-  this.velocityX = generateRandomNumber(-maxVelocity, maxVelocity);
-  this.velocityY = generateRandomNumber(-maxVelocity, maxVelocity);
-  this.color = 'rgb(' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ')';
-  this.size = ballSize;
-}
-
-Object.assign(GenericBall.prototype, {
+    this.x = generateRandomNumber(0 + ballSize, canvasWidth - ballSize);
+    this.y = generateRandomNumber(0 + ballSize, canvasHeight - ballSize);
+    this.velocityX = generateRandomNumber(-maxVelocity, maxVelocity);
+    this.velocityY = generateRandomNumber(-maxVelocity, maxVelocity);
+    this.color = 'rgb(' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ')';
+    this.size = ballSize;
+  }
   draw() {
     canvasContext.beginPath();
     canvasContext.fillStyle = this.color;
     canvasContext.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
     canvasContext.fill();
-  },
+  }
   move() {
     const intersectVerticalBorder = (this.x + this.size) >= canvasWidth
       || (this.x - this.size) <= 0;
@@ -45,27 +44,24 @@ Object.assign(GenericBall.prototype, {
 
     this.x = this.x + this.velocityX;
     this.y = this.y + this.velocityY;
-  },
+  }
   update() {
     this.move();
-  },
-});
-
-function ResizableBall() {
-  GenericBall.call(this);
+  }
 }
 
-ResizableBall.prototype = Object.create(GenericBall.prototype);
-Object.assign(ResizableBall.prototype, {
+class ResizableBall extends GenericBall {
+  constructor() {
+    super();
+  }
   resize() {
     this.size = generateRandomNumber(0, 25);
-  },
+  }
   update() {
     this.move();
     this.resize();
-  },
-  constructor: ResizableBall,
-});
+  }
+}
 
 while (ballsPool.length < ballsCount) {
   const ball = new GenericBall();
