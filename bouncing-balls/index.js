@@ -11,7 +11,7 @@ const ballsPool = [];
 const ballsCount = 15;
 const maxVelocity = 7;
 
-const genericBall = {
+const typicalBall = {
   initialize() {
     const ballSize = generateRandomNumber(10, 20);
 
@@ -50,7 +50,7 @@ const genericBall = {
   },
 };
 
-const resizableBall = Object.assign(Object.create(genericBall), {
+const typicalResizableBall = Object.assign(Object.create(typicalBall), {
   resize() {
     this.size = generateRandomNumber(0, 25);
   },
@@ -61,14 +61,14 @@ const resizableBall = Object.assign(Object.create(genericBall), {
 });
 
 while (ballsPool.length < ballsCount) {
-  const ball = Object.create(genericBall);
+  const ball = Object.create(typicalBall);
   ball.initialize();
   ballsPool.push(ball);
 }
 
-const crazyBall = Object.create(resizableBall);
-crazyBall.initialize();
-ballsPool.push(crazyBall);
+const resizableBall = Object.create(typicalResizableBall);
+resizableBall.initialize();
+ballsPool.push(resizableBall);
 
 function moveBalls() {
   canvasContext.fillStyle = 'rgba(0,0,0,0.2)';
