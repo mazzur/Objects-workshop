@@ -17,5 +17,7 @@
 3. [Creating own prototypal chains with Object.create](https://codepen.io/mazzur55/pen/xygVRG)
 4. [Inheritance with constructors](https://codepen.io/mazzur55/pen/YJNwxK)
 
-#### Finally
-Please leave your feedback after the lecture [here](https://goo.gl/forms/1GdrQaQjQKQG3G8y1)
+#### Further readings
+- [mdn introduction](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects)
+- [the most detailed overview of objects and their prototypes in JS](https://github.com/getify/You-Dont-Know-JS/tree/master/this%20%26%20object%20prototypes)
+- [Atricle on common misconceptions about inheritance in JS](https://medium.com/javascript-scene/common-misconceptions-about-inheritance-in-javascript-d5d9bab29b0a)
