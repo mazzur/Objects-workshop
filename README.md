@@ -11,14 +11,11 @@
 8. Inheritance imitation with constructor functions [PR](https://github.com/mazzur/Objects-workshop/pull/8) [demo](https://codepen.io/mazzur55/pen/MPbNXB)
 9. Using classes for inheritance imitation [PR](https://github.com/mazzur/Objects-workshop/pull/9)  [demo](https://codepen.io/mazzur55/pen/vVyozL)
 
-#### Mini-tasks:
+#### Examples/tasks:
 1. ["this" binding](https://codepen.io/mazzur55/pen/qJZGyK)
-2. [Messing with object prototypes](https://codepen.io/mazzur55/pen/ePBaZa)
-
-#### Examples:
-1. [Native types prototypes](https://codepen.io/mazzur55/pen/qJRZEE?editors=0010)
-2. [Creating own prototypal chains with Object.create](https://codepen.io/mazzur55/pen/xygVRG)
-3. [Inheritance with constuctors](https://codepen.io/mazzur55/pen/YJNwxK)
+2. [Native types prototypes](https://codepen.io/mazzur55/pen/qJRZEE?editors=0010) Task: [Messing with object prototypes](https://codepen.io/mazzur55/pen/ePBaZa)
+3. [Creating own prototypal chains with Object.create](https://codepen.io/mazzur55/pen/xygVRG)
+4. [Inheritance with constructors](https://codepen.io/mazzur55/pen/YJNwxK)
 
 #### Finally
 Please leave your feedback after the lecture [here](https://goo.gl/forms/1GdrQaQjQKQG3G8y1)
