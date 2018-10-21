@@ -1,69 +1,58 @@
-const canvas = document.querySelector('canvas');
-const canvasContext = canvas.getContext('2d');
-const canvasWidth = canvas.width = window.innerWidth;
-const canvasHeight = canvas.height = window.innerHeight;
+// canvas
+const c = document.querySelector('canvas');
+// canvas context
+const cc = c.getContext('2d');
+var cW = c.width = window.innerWidth;
+var cH = c.height = window.innerHeight;
 
-function generateRandomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
+function random(a, b) {
+  var random = Math.floor(Math.random() * (b - a)) + a;
+  return random;
 }
 
-const ballsPool = [];
-const ballsCount = 15;
-const maxVelocity = 7;
-const ballSize = generateRandomNumber(10, 20);
-
-while (ballsPool.length < ballsCount) {
+// contains balls
+const bp = [];
+const maxV = 7;
+while (bp.length < 15) {
+  size = random(10, 20);
   const ball = {
-    x: generateRandomNumber(0 + ballSize, canvasWidth - ballSize),
-    y: generateRandomNumber(0 + ballSize, canvasHeight - ballSize),
-    velocityX: generateRandomNumber(-maxVelocity, maxVelocity),
-    velocityY: generateRandomNumber(-maxVelocity, maxVelocity),
-    color: 'rgb(' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ')',
-    size: ballSize,
-    draw() {
-      canvasContext.beginPath();
-      canvasContext.fillStyle = this.color;
-      canvasContext.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
-      canvasContext.fill();
-    },
-    update() {
-      const intersectVerticalBorder = (this.x + this.size) >= canvasWidth
-        || (this.x - this.size) <= 0;
-      const intersectHorizontalBorder = (this.y + this.size) >= canvasHeight
-        || (this.y - this.size) <= 0;
-
-      if (intersectVerticalBorder) {
-        this.velocityX = -(this.velocityX);
-      }
-
-      if (intersectHorizontalBorder) {
-        this.velocityY = -(this.velocityY);
-      }
-
-      this.x = this.x + this.velocityX;
-      this.y = this.y + this.velocityY;
+    x: random(0 + size, cW - size),
+    y: random(0 + size, cH - size),
+    vX: random(-maxV, maxV),
+    vY: random(-maxV, maxV),
+    color: 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')',
+    size: size,
+    move() {
+      cc.beginPath();
+      cc.fillStyle = this.color;
+      cc.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+      cc.fill();
+      this.vX = ((this.x + this.size) >= cW || (this.x - this.size) <= 0) ? -(this.vX)
+        : this.vX;
+      this.vY = (this.y + this.size) >= cH
+      || (this.y - this.size) <= 0 ? -(this.vY) : this.vY;
+      this.x = this.x + this.vX;
+      this.y = this.y + this.vY;
     },
   };
-  ballsPool.push(ball);
+  bp.push(ball);
 }
 
 const resizableBall = {
-  x: generateRandomNumber(0 + ballSize, canvasWidth - ballSize),
-  y: generateRandomNumber(0 + ballSize, canvasHeight - ballSize),
-  velocityX: generateRandomNumber(-maxVelocity, maxVelocity),
-  velocityY: generateRandomNumber(-maxVelocity, maxVelocity),
-  color: 'rgb(' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ',' + generateRandomNumber(0, 255) + ')',
-  size: ballSize,
-  draw() {
-    canvasContext.beginPath();
-    canvasContext.fillStyle = this.color;
-    canvasContext.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
-    canvasContext.fill();
-  },
-  update() {
-    const intersectVerticalBorder = (this.x + this.size) >= canvasWidth
+  x: random(0 + random(10, 20), cW - random(10, 20)),
+  y: random(0 + random(10, 20), cH - random(10, 20)),
+  velocityX: random(-maxV, maxV),
+  velocityY: random(-maxV, maxV),
+  color: 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')',
+  size: random(10, 20),
+  move() {
+    cc.beginPath();
+    cc.fillStyle = this.color;
+    cc.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+    cc.fill();
+    const intersectVerticalBorder = (this.x + this.size) >= cW
       || (this.x - this.size) <= 0;
-    const intersectHorizontalBorder = (this.y + this.size) >= canvasHeight
+    const intersectHorizontalBorder = (this.y + this.size) >= cH
       || (this.y - this.size) <= 0;
 
     if (intersectVerticalBorder) {
@@ -77,22 +66,21 @@ const resizableBall = {
     this.x = this.x + this.velocityX;
     this.y = this.y + this.velocityY;
 
-    this.size = generateRandomNumber(0, 25);
+    this.size = random(0, 25);
   },
 };
 
-ballsPool.push(resizableBall);
+bp.push(resizableBall);
 
-function moveBalls() {
-  canvasContext.fillStyle = 'rgba(0,0,0,0.2)';
-  canvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
+function run() {
+  cc.fillStyle = 'rgba(0,0,0,0.2)';
+  cc.fillRect(0, 0, cW, cH);
 
-  ballsPool.forEach((ball) => {
-    ball.draw();
-    ball.update();
+  bp.forEach((b) => {
+    b.move();
   });
 
-  requestAnimationFrame(moveBalls);
+  requestAnimationFrame(run);
 }
 
-moveBalls();
+run();
